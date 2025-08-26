@@ -8,6 +8,7 @@ plugins {
 val teamCityVersion = System.getenv("TEAMCITY_VERSION") ?: "2024.12"
 
 dependencies {
+
   // Compile classpath
   implementation(kotlin("stdlib"))
   compileOnly("org.jetbrains.teamcity:server-api:$teamCityVersion")
@@ -22,10 +23,12 @@ dependencies {
   server("org.jdom:jdom2:2.0.6.1")
 
   // Include the agent jar in the plugin distribution
+  implementation(project(":common"))
   agent(project(":agent"))
 }
 
 tasks.withType<JavaCompile> { options.release.set(17) }
+
 tasks.withType<KotlinCompile> {
   kotlinOptions.jvmTarget = "17"
   kotlinOptions.freeCompilerArgs += "-Xjdk-release=17"
@@ -37,8 +40,8 @@ teamcity {
     archiveName = "teamcity-jawsdeploy-plugin"
     descriptor = file("teamcity-plugin.xml")
     files {
-      from("src/main/resources/META-INF") { into("META-INF") }        // keep Spring XML in META-INF
-      from("src/main/resources/buildServerResources") { into(".") }   // put JSPs at ZIP root
+      from("src/main/resources/META-INF") { into("META-INF") }
+      from("src/main/resources/buildServerResources") { into("buildServerResources") }
     }
   }
 }

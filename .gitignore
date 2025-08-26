@@ -28,5 +28,4 @@ replay_pid*
 
 .gradle/
 
-agent/build/
-server/build/
+*/build/

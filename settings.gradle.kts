@@ -7,4 +7,4 @@ pluginManagement {
 }
 
 rootProject.name = "teamcity-jawsdeploy-plugin"
-include(":server", ":agent")
+include(":server", ":agent", ":common")

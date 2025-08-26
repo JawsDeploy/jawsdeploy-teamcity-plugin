@@ -1,24 +1,13 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="props" tagdir="/WEB-INF/tags/props" %>
+<jsp:useBean id="propertiesBean" scope="request" type="jetbrains.buildServer.controllers.BasePropertiesBean"/>
 
-<div class="parameter">
-  <span class="name">Action:</span> <span class="value"><props:displayValue name="action" /></span>
-</div>
-<div class="parameter">
-  <span class="name">Login:</span> <span class="value"><props:displayValue name="login" /></span>
-</div>
-<div class="parameter">
-  <span class="name">API Key:</span> <span class="value">******</span>
-</div>
-<div class="parameter">
-  <span class="name">Jaws API Base:</span> <span class="value"><props:displayValue name="baseUrl" /></span>
-</div>
-<div class="parameter">
-  <span class="name">Project ID:</span> <span class="value"><props:displayValue name="projectId" /></span>
-</div>
-<div class="parameter">
-  <span class="name">Environments:</span> <span class="value"><props:displayValue name="environments" /></span>
-</div>
-<div class="parameter">
-  <span class="name">Version:</span> <span class="value"><props:displayValue name="version" /></span>
-</div>
+<ul>
+  <li>API Base URL: <props:displayProperty name="jawsdeploy.apiBaseUrl"/></li>
+  <li>Login (service account ID): <props:displayProperty name="jawsdeploy.login"/></li>
+  <li>API Key: ****</li>
+  <li>Operation: <props:displayProperty name="jawsdeploy.operation"/></li>
+  <li>Project ID: <props:displayProperty name="jawsdeploy.projectId"/></li>
+  <li>Version: <props:displayProperty name="jawsdeploy.version"/></li>
+  <li>Environments: <props:displayProperty name="jawsdeploy.environments"/></li>
+</ul>

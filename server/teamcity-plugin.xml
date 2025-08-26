@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<teamcity-plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:schemas-jetbrains-com:teamcity-plugin-v1-xml">
+<teamcity-plugin>
   <info>
     <name>teamcity-jawsdeploy-plugin</name>
-    <display-name>Jaws Deploy (Build Step + Server)</display-name>
-    <version>1.1.8</version>
+    <display-name>Jaws Deploy</display-name>
+    <version>1.2.2</version>
+    <description>Runner for Jaws Deploy integration.</description>
     <vendor>
       <name>Jaws Deploy</name>
       <url>https://www.jawsdeploy.net</url>
     </vendor>
-    <description>Build Step for Jaws Deploy (server performs API calls)</description>
   </info>
-  <requirements min-build="100000"/>
+  <requirements min-build="90000"/>
   <deployment use-separate-classloader="true"/>
 </teamcity-plugin>
