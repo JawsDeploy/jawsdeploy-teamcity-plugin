@@ -15,7 +15,11 @@ repositories {
 dependencies {
   compileOnly("org.jetbrains.teamcity:agent-api:$teamCityVersion")
   implementation(kotlin("stdlib"))
-  implementation(project(":common"))
+  implementation(project(":common")) {
+        exclude(group = "com.fasterxml.jackson.core")
+        exclude(group = "com.fasterxml.jackson.module")
+        exclude(group = "com.fasterxml.jackson.dataformat")
+    }
 }
 
 tasks.withType<JavaCompile> { options.release.set(17) }

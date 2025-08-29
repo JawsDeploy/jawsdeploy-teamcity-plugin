@@ -27,21 +27,22 @@ dependencies {
   agent(project(":agent"))
 }
 
-tasks.withType<JavaCompile> { options.release.set(17) }
-
-tasks.withType<KotlinCompile> {
-  kotlinOptions.jvmTarget = "17"
-  kotlinOptions.freeCompilerArgs += "-Xjdk-release=17"
-}
-
 teamcity {
   version = teamCityVersion
   server {
     archiveName = "teamcity-jawsdeploy-plugin"
     descriptor = file("teamcity-plugin.xml")
     files {
+      from("../agent/src/main/resources/META-INF") { into("META-INF") }
       from("src/main/resources/META-INF") { into("META-INF") }
       from("src/main/resources/buildServerResources") { into("buildServerResources") }
     }
   }
+}
+
+tasks.withType<JavaCompile> { options.release.set(17) }
+
+tasks.withType<KotlinCompile> {
+  kotlinOptions.jvmTarget = "17"
+  kotlinOptions.freeCompilerArgs += "-Xjdk-release=17"
 }
