@@ -3,15 +3,13 @@
   <info>
     <name>teamcity-jawsdeploy-plugin</name>
     <display-name>Jaws Deploy</display-name>
-    <version>1.3.3</version>
+    <version>1.4.0</version>
     <description>Runner for Jaws Deploy integration.</description>
     <vendor>
       <name>Jaws Deploy</name>
       <url>https://www.jawsdeploy.net</url>
     </vendor>
   </info>
-  <requirements min-build="90000"/>
-  <deployment use-separate-classloader="true"/>
-  <server/>
-  <agent/>
+  <requirements min-build="58000"/>
+  <deployment use-separate-classloader="true" allow-runtime-reload="true" />
 </teamcity-plugin>

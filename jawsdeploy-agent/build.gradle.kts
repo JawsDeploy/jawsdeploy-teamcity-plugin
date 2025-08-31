@@ -15,15 +15,22 @@ repositories {
 dependencies {
   compileOnly("org.jetbrains.teamcity:agent-api:$teamCityVersion")
   implementation(kotlin("stdlib"))
-  implementation(project(":common")) {
-        exclude(group = "com.fasterxml.jackson.core")
-        exclude(group = "com.fasterxml.jackson.module")
-        exclude(group = "com.fasterxml.jackson.dataformat")
-    }
+  implementation(project(":jawsdeploy-common"))
 }
 
 tasks.withType<JavaCompile> { options.release.set(17) }
 tasks.withType<KotlinCompile> {
   kotlinOptions.jvmTarget = "17"
   kotlinOptions.freeCompilerArgs += "-Xjdk-release=17"
+}
+
+teamcity {
+    version = teamCityVersion
+    agent {
+        descriptor {
+            pluginDeployment {
+                useSeparateClassloader = true
+            }
+        }
+    }
 }

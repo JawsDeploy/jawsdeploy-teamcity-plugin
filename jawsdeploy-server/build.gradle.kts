@@ -8,8 +8,6 @@ plugins {
 val teamCityVersion = System.getenv("TEAMCITY_VERSION") ?: "2024.12"
 
 dependencies {
-
-  // Compile classpath
   implementation(kotlin("stdlib"))
   compileOnly("org.jetbrains.teamcity:server-api:$teamCityVersion")
   compileOnly("org.jetbrains.teamcity.internal:server:$teamCityVersion")
@@ -22,9 +20,7 @@ dependencies {
   server("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.+")
   server("org.jdom:jdom2:2.0.6.1")
 
-  // Include the agent jar in the plugin distribution
-  implementation(project(":common"))
-  agent(project(":agent"))
+  implementation(project(":jawsdeploy-common"))
 }
 
 teamcity {
@@ -33,9 +29,9 @@ teamcity {
     archiveName = "teamcity-jawsdeploy-plugin"
     descriptor = file("teamcity-plugin.xml")
     files {
-      from("../agent/src/main/resources/META-INF") { into("META-INF") }
-      from("src/main/resources/META-INF") { into("META-INF") }
-      from("src/main/resources/buildServerResources") { into("buildServerResources") }
+      into("agent") {
+        from(project(":jawsdeploy-agent").tasks.named("agentPlugin"))
+      }
     }
   }
 }
