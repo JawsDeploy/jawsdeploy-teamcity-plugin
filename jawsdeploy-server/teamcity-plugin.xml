@@ -3,7 +3,7 @@
   <info>
     <name>teamcity-jawsdeploy-plugin</name>
     <display-name>Jaws Deploy</display-name>
-    <version>1.5.2</version>
+    <version>1.5.4</version>
     <description>Runner for Jaws Deploy integration.</description>
     <vendor>
       <name>Jaws Deploy</name>

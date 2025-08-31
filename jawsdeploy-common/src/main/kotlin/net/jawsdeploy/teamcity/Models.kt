@@ -1,5 +1,17 @@
 package net.jawsdeploy.teamcity.model
 
+enum class DeploymentMachineMode {
+    All,
+    Exclude,
+    Include
+}
+
+data class DeployReleaseEnvironmentSetupRequest(
+    val environmentName: String,
+    val machineMode: DeploymentMachineMode? = null,
+    val machineIds: List<String>? = null
+)
+
 data class CreateReleaseRequest(
   val version: String,
   val projectId: String,
@@ -14,8 +26,7 @@ data class CreateReleaseResponse(val releaseId: String)
 data class DeployReleaseRequest(
   val releaseId: String,
   val phaseName: String? = null,
-  val environmentName: String? = null,
-  val environments: List<String>? = null,
+  val environments: List<DeployReleaseEnvironmentSetupRequest>? = null,
   val redownloadPackages: Boolean? = null,
   val deploymentDateUnixMillis: Long? = null,
   val excludeStepNames: List<String>? = null
@@ -27,8 +38,7 @@ data class PromoteRequest(
   val projectId: String,
   val version: String? = null,
   val phaseName: String? = null,
-  val environmentName: String? = null,
-  val environments: List<String>? = null,
+  val environments: List<DeployReleaseEnvironmentSetupRequest>? = null,
   val redownloadPackages: Boolean? = null,
   val deploymentDateUnixMillis: Long? = null,
   val excludeStepNames: List<String>? = null

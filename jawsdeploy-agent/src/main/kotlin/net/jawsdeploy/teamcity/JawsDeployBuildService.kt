@@ -41,8 +41,12 @@ class JawsDeployBuildService : BuildServiceAdapter() {
 
     val version = p[JawsDeployRunnerConstants.PARAM_VERSION]?.takeIf { it.isNotBlank() } ?: build.buildNumber
     val phaseName = p[JawsDeployRunnerConstants.PARAM_PHASE_NAME]?.takeIf { it.isNotBlank() }
-    val envs = p[JawsDeployRunnerConstants.PARAM_ENVIRONMENTS]
-      ?.split(',')?.map { it.trim() }?.filter { it.isNotEmpty() }
+    val envs: List<DeployReleaseEnvironmentSetupRequest> =
+      p[JawsDeployRunnerConstants.PARAM_ENVIRONMENTS]!!
+        .split(',', ';') // allow both , and ; separators
+        .map { it.trim() }
+        .filter { it.isNotEmpty() }
+        .map { DeployReleaseEnvironmentSetupRequest(environmentName = it) }
     val redownload = p[JawsDeployRunnerConstants.PARAM_REDOWNLOAD_PACKAGES]?.equals("true", true)
     val excludes = p[JawsDeployRunnerConstants.PARAM_EXCLUDE_STEP_NAMES]
       ?.split(',')?.map { it.trim() }?.filter { it.isNotEmpty() }
@@ -61,8 +65,8 @@ class JawsDeployBuildService : BuildServiceAdapter() {
           ignoreDefaultChannel = p[JawsDeployRunnerConstants.PARAM_IGNORE_DEFAULT_CHANNEL]?.equals("true", true),
           notes = p[JawsDeployRunnerConstants.PARAM_NOTES]?.takeIf { it.isNotBlank() }
         )
-        val createResp: CreateReleaseResponse = api.post("/release", createReq))
-        logger.message("Created release: ${createResp.releaseId}")
+        val createResp: CreateReleaseResponse = api.post("/release", createReq)
+        logger.message("Created release v. $version (${createResp.releaseId})")
 
         val deployReq = DeployReleaseRequest(
           releaseId = createResp.releaseId,
@@ -84,7 +88,7 @@ class JawsDeployBuildService : BuildServiceAdapter() {
           redownloadPackages = redownload,
           excludeStepNames = excludes
         )
-        logger.message("Promoting ${promoteReq.version ?: "<latest>"} for project $projectId …")
+        logger.message("Promoting ${promoteReq.version ?: "<latest>"} for project $projectId to ${p[JawsDeployRunnerConstants.PARAM_ENVIRONMENTS]} …")
         val deployResp: PromoteResponse = api.post("/release/promote", promoteReq)
         deployResp.deploymentIds
       }
