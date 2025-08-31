@@ -8,8 +8,7 @@ java {
 }
 
 dependencies {
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.1")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.1")
+    compileOnly("com.google.code.gson:gson:2.11.0")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {

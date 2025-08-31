@@ -61,8 +61,8 @@ class JawsDeployBuildService : BuildServiceAdapter() {
           ignoreDefaultChannel = p[JawsDeployRunnerConstants.PARAM_IGNORE_DEFAULT_CHANNEL]?.equals("true", true),
           notes = p[JawsDeployRunnerConstants.PARAM_NOTES]?.takeIf { it.isNotBlank() }
         )
-        val createResp = api.parse<CreateReleaseResponse>(api.postJson("/release", createReq))
-        logger.message("Created release: ${'$'}{createResp.releaseId}")
+        val createResp: CreateReleaseResponse = api.post("/release", createReq))
+        logger.message("Created release: ${createResp.releaseId}")
 
         val deployReq = DeployReleaseRequest(
           releaseId = createResp.releaseId,
@@ -72,7 +72,8 @@ class JawsDeployBuildService : BuildServiceAdapter() {
           excludeStepNames = excludes
         )
         logger.message("Deploying release $version …")
-        api.parse<DeployResponse>(api.postJson("/release/deploy", deployReq)).deploymentIds
+        val deployResp: DeployResponse = api.post("/release/deploy", deployReq)
+        deployResp.deploymentIds
       }
       else -> {
         val promoteReq = PromoteRequest(
@@ -84,13 +85,16 @@ class JawsDeployBuildService : BuildServiceAdapter() {
           excludeStepNames = excludes
         )
         logger.message("Promoting ${promoteReq.version ?: "<latest>"} for project $projectId …")
-        api.parse<PromoteResponse>(api.postJson("/release/promote", promoteReq)).deploymentIds
+        val deployResp: PromoteResponse = api.post("/release/promote", promoteReq)
+        deployResp.deploymentIds
       }
     }
 
     if (deploymentIds.isEmpty()) {
       build.buildLogger.warning("No deployments were created by JawsDeploy API.")
       return
+    } else {
+      logger.message("Deployment ids: ${deploymentIds}")
     }
 
     deploymentIds.forEachIndexed { idx, depId ->
@@ -140,7 +144,7 @@ class JawsDeployBuildService : BuildServiceAdapter() {
       if (interrupted) {
         try {
           flow.warning("Cancellation requested – sending cancel to JawsDeploy…")
-          api.postJson("/deployment/cancel", mapOf("deploymentId" to depId))
+          api.post("/deployment/cancel", mapOf("deploymentId" to depId))
         } catch (_: Throwable) { }
       }
     }

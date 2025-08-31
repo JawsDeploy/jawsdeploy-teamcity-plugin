@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<teamcity-plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                 xsi:noNamespaceSchemaLocation="urn:schemas-jetbrains-com:teamcity-plugin-v1-xml">
-  <info>
-    <name>jawsdeploy-agent</name>
-    <display-name>Jaws Deploy Agent</display-name>
-    <version>1.4.1</version>
-    <vendor>
-      <name>Jaws Deploy</name>
-      <url>https://www.jawsdeploy.net</url>
-    </vendor>
-  </info>
-  
-  <deployment use-separate-classloader="true"/>
-</teamcity-plugin>
+<teamcity-agent-plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="urn:schemas-jetbrains-com:teamcity-agent-plugin-v1-xml">
+  <plugin-deployment use-separate-classloader="true"/>
+</teamcity-agent-plugin>
