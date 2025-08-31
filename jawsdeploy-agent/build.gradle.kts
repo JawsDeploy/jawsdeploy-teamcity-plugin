@@ -27,10 +27,6 @@ tasks.withType<KotlinCompile> {
 teamcity {
     version = teamCityVersion
     agent {
-        descriptor {
-            pluginDeployment {
-                useSeparateClassloader = true
-            }
-        }
+        descriptor = file("teamcity-plugin.xml")
     }
 }
