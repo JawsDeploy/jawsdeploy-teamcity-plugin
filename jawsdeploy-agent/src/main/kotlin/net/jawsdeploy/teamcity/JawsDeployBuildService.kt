@@ -50,7 +50,7 @@ class JawsDeployBuildService : BuildServiceAdapter() {
     val redownload = p[JawsDeployRunnerConstants.PARAM_REDOWNLOAD_PACKAGES]?.equals("true", true)
     val excludes = p[JawsDeployRunnerConstants.PARAM_EXCLUDE_STEP_NAMES]
       ?.split(',')?.map { it.trim() }?.filter { it.isNotEmpty() }
-    val pollMs = p[JawsDeployRunnerConstants.PARAM_POLL_INTERVAL_MS]?.toLongOrNull() ?: 2000L
+    val pollMs = p[JawsDeployRunnerConstants.PARAM_POLL_INTERVAL_MS]?.toLongOrNull() ?: 3000L
 
     val op = (p[JawsDeployRunnerConstants.PARAM_OPERATION] ?: "createAndDeploy").lowercase()
     require(op == "createanddeploy" || op == "promote") { "Operation must be 'createAndDeploy' or 'promote'" }
@@ -88,7 +88,7 @@ class JawsDeployBuildService : BuildServiceAdapter() {
           redownloadPackages = redownload,
           excludeStepNames = excludes
         )
-        logger.message("Promoting ${promoteReq.version ?: "<latest>"} for project $projectId to ${p[JawsDeployRunnerConstants.PARAM_ENVIRONMENTS]} …")
+        logger.message("Promoting release ${promoteReq.version ?: "<latest>"} for project $projectId to ${p[JawsDeployRunnerConstants.PARAM_ENVIRONMENTS]} …")
         val deployResp: PromoteResponse = api.post("/release/promote", promoteReq)
         deployResp.deploymentIds
       }
